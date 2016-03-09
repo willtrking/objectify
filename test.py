@@ -75,8 +75,10 @@ for i in xrange(1):
 
     z = Test()
     z.from_collection(_collection)
+    #print z._kwargs_value('wooter',default='cool')
     zz.append(z)
 
+print zz[0].to_collection()
 #for i in xrange(400000):
     #zz.append(frozenset())
     #zz.append(("woot",))

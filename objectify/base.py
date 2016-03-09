@@ -33,9 +33,13 @@ class ObjectifyObject(object):
         self.__init_kwargs_keys__ = key_places[1]
         self.__init_kwargs_key_orig_idx__ = key_places[0]
 
+        del key_places
+
         self.__init_kwargs_values__ = tuple(
             kwargs.values()
         )
+        
+        del kwargs
 
 
         #self.__init_kwargs__ = kwargs
@@ -76,10 +80,42 @@ class ObjectifyObject(object):
         raise ValueError
 
 
-    def _kwargs_value(self,key):
-        return self.__init_kwargs_values__[
-            self._kwargs_key_index(key)
-        ]
+    def _kwargs_value(self,key,*args,**kwargs):
+        args_len = len(args)
+
+        if args_len > 1:
+            raise TypeError
+
+        if args_len > 0 and kwargs:
+            raise TypeError
+
+        if len(kwargs.keys()) > 1:
+            raise TypeError
+
+        if kwargs and 'default' not in kwargs:
+            raise TypeError
+
+        _do_def = False
+        if args_len == 1:
+            _def = args[0]
+            _do_def = True
+
+        if 'default' in kwargs:
+            _def = kwargs['default']
+            _do_def = True
+
+        del args
+        del kwargs
+
+        try:
+            return self.__init_kwargs_values__[
+                self._kwargs_key_index(key)
+            ]
+        except ValueError as e:
+            if _do_def:
+                return _def
+            else:
+                raise e
 
     def _kwargs_to_dict(self):
         r = {}
