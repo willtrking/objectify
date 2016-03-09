@@ -33,13 +33,9 @@ class ObjectifyObject(object):
         self.__init_kwargs_keys__ = key_places[1]
         self.__init_kwargs_key_orig_idx__ = key_places[0]
 
-        del key_places
-
         self.__init_kwargs_values__ = tuple(
             kwargs.values()
         )
-        
-        del kwargs
 
 
         #self.__init_kwargs__ = kwargs
@@ -103,9 +99,6 @@ class ObjectifyObject(object):
         if 'default' in kwargs:
             _def = kwargs['default']
             _do_def = True
-
-        del args
-        del kwargs
 
         try:
             return self.__init_kwargs_values__[
