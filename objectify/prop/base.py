@@ -23,12 +23,14 @@ class ObjectifyProperty(ObjectifyObject):
         'auto_fetch',
         'auto_fetch_default',
         'can_fetch_default',
-        '__passdown_from__'
+        '__passdown_from__',
+        '__auto_fetch_object__'
     )
 
     #Should be an ObjectifyObject
     #Object to use to fetch
     __fetch_object__ = None
+    __auto_fetch_object__ = False
     #Execute this function with the value of this property
     #Use what it returns to fetch
     __fetch_wrapper_func__ = None
@@ -73,7 +75,7 @@ class ObjectifyProperty(ObjectifyObject):
             if not self.__fetch_object__:
                 self.auto_fetch = False
             else:
-                self.auto_fetch = True
+                self.auto_fetch = self.__auto_fetch_object__
 
         if self.auto_fetch and not isinstance(self.__fetch_object__,ObjectifyObject):
             raise RuntimeError("Cannot auto_fetch property without fetch_object that is an ObjectifyObject")
