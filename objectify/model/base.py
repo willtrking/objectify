@@ -17,10 +17,11 @@ class ObjectifyModel(ObjectifyObject):
         '__fetch_attr__',
         '__key_name__',
         '__fetch_attrs__',
-        '__fetch_key__'
+        '__fetch_key__',
+        '__serializer_ref__',
+        '__deserializer_ref__'
     )
 
-    
     
     __serializer__ = json.dumps
     __deserializer__ = json.loads
@@ -42,10 +43,15 @@ class ObjectifyModel(ObjectifyObject):
         self.__fetch_key__ = fetch_key
 
         if serializer is not None:
-            self.__serializer__ = serializer
+            self.__serializer_ref__ = serializer
+        else:
+            self.__serializer_ref__ = self.__serializer__
         
         if deserializer is not None:
-            self.__deserializer__ = deserializer
+            self.__deserializer_ref__ = deserializer
+        else:
+            self.__deserializer_ref__ = self.__deserializer__
+
 
         default = kwargs.get("default",None)
         if default:
@@ -53,17 +59,27 @@ class ObjectifyModel(ObjectifyObject):
 
 
     def fetch_key_value(self):
+        print self.__fetch_attr__
         return getattr(self,self.__fetch_attr__)
 
     def set_fetch_key_value(self,val):
+        print self.__fetch_attr__
         return setattr(self,self.__fetch_attr__,val)
 
+    @property
+    def _serializer(self):
+        return self.__serializer_ref__
+
+    @property
+    def _deserializer(self):
+        return self.__deserializer_ref__
+
     def serialize(self):
-        return self.__serializer__(self.to_collection())
+        return self._serializer(self.to_collection())
 
     def deserialize(self,val):
         return self.from_collection(
-            self.__deserializer__(val)
+            self._deserializer(val)
         )
 
     def copy_inited(self,keep_name=True):

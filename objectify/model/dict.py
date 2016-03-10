@@ -117,10 +117,11 @@ class ObjectifyDict(ObjectifyModel):
         if (self.__dynamic_class__ is not None and 
                 not isinstance(self.__dynamic_class__,ObjectifyObject)):
             raise RuntimeError("__dynamic_class__ MUST be an instance of ObjectifyObject if it is set")
+        
+        super(ObjectifyDict, self).__init__(*args,**kwargs)
 
         self._isolate_attributes()
         
-        super(ObjectifyDict, self).__init__(*args,**kwargs)
 
     def __setattr__(self,name,val,raw=False):
 

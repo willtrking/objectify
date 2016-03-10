@@ -55,7 +55,8 @@ _collection = {
 #z.to_collection()
 
 
-
+#z=Test()
+#z.from_collection(_collection)
 #print z.fetch_key_value()
 #z.set_fetch_key_value('12345')
 #print z.fetch_key_value()
@@ -71,13 +72,15 @@ _collection = {
 
 
 zz = []
-for i in xrange(10000):
+for i in xrange(1):
 
     #z = Boolean()
     #z = ObjectifyProperty()
     z=Test()
-    z.from_collection(_collection)
-    #print z.to_collection()
+    z.deserialize(ujson.encode(_collection))
+    #z.from_collection(_collection)
+    print z.to_collection()
+    print z.serialize()
     #print z._kwargs_value('wooter',default='cool')
     zz.append(z)
 
