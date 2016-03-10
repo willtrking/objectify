@@ -18,10 +18,7 @@ class DynamicProperty(ObjectifyProperty):
         May or may not try to convert strings into numbers
     """
 
-    __slots__ = (
-        '__unicode_charset__',
-        '__type_fit_numbers__'
-    )
+    __slots__ = ()
     
     #Charset for unicode encoding
     __unicode_charset__ = 'utf-8'
@@ -197,6 +194,8 @@ class DynamicList(ObjectifyList):
         May or may not try to convert strings into numbers
     """
 
+    __slots__ = ()
+    
     __list_object__ = DynamicProperty()
 
     def example_value(self):

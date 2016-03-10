@@ -2,8 +2,8 @@
 
 from .base import ObjectifyProperty
 
-TRUE_VALUES = set(['true','1','yes'])
-FALSE_VALUES = set(['false','0','no'])
+TRUE_VALUES = frozenset(['true','1','yes'])
+FALSE_VALUES = frozenset(['false','0','no'])
 
 class Boolean(ObjectifyProperty):
     """ A boolean value, accepting the following:
@@ -13,9 +13,7 @@ class Boolean(ObjectifyProperty):
         FALSE: False, 0, 'false', '0', 'no' (case insentitive)
     """
 
-    __slots__ = (
-        'to_type'
-    )
+    __slots__ = ()
 
     to_type=bool
 
@@ -44,6 +42,3 @@ class Boolean(ObjectifyProperty):
     
     def example_value(self):
         return True
-    
-class Bool(Boolean):
-    pass

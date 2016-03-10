@@ -9,14 +9,11 @@ class ObjectifyObject(object):
         '__init_kwargs_keys__',
         '__init_kwargs_key_orig_idx__',
         '__init_kwargs_values__'
-        #'__init_kwargs__'
     )
 
-    #__init_args__ = []
-    #clear__init_kwargs__ = {}
 
     def __init__(self,*args,**kwargs):
-        self.__init_args__ = args
+        self.__init_args__ = tuple(args)
         
         #Tuples as we'll prefer memory reduction
         #to lookup performance
@@ -61,6 +58,7 @@ class ObjectifyObject(object):
 
     def from_collection(self,frm):
         raise NotImplementedError()
+
 
     #def _kwargs_contains_keys(self,key):
     #    return (key <= lst[-1]) and (lst[bisect_left(lst, item)] == item)

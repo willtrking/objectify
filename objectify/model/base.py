@@ -13,23 +13,18 @@ from ..base import ObjectifyObject
 
 class ObjectifyModel(ObjectifyObject):
 
-    #__slots__ = (
-    #    '__fetch_attr__',
-    #    '__serializer__',
-    #    '__deserializer__',
-    #    '__key_name__',
-    #    '__fetch_attrs__',
-    #    '__fetch_key__'
-    #)
+    __slots__ = (
+        '__fetch_attr__',
+        '__key_name__',
+        '__fetch_attrs__',
+        '__fetch_key__'
+    )
 
-    __fetch_attr__ = None
+    
     
     __serializer__ = json.dumps
     __deserializer__ = json.loads
     
-    __key_name__ = None
-    __fetch_attrs__ = None
-    __fetch_key__ = None
 
     def __init__(self,name=None,fetch_key=False,fetch_attrs=[],
             serializer=None,deserializer=None,**kwargs):
@@ -40,6 +35,7 @@ class ObjectifyModel(ObjectifyObject):
             serializer=serializer,
             deserializer=deserializer,**kwargs
         )
+        self.__fetch_attr__ = None
 
         self.__key_name__ = name
         self.__fetch_attrs__ = frozenset(fetch_attrs)

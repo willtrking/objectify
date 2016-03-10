@@ -8,7 +8,7 @@ class ObjectifyList(ObjectifyModel):
         The instantiated ObjectifyObject class we want to use in our list
     """
 
-    #__slots__ = ()
+    __slots__ = ('__list__','__my_list_object__')
     
     __list_object__ = None
 
@@ -18,9 +18,11 @@ class ObjectifyList(ObjectifyModel):
         self.__fetch_attr__ = None
         
         if list_object is not None:
-            self.__list_object__ = list_object
+            self.__my_list_object__ = list_object
+        else:
+            self.__my_list_object__ = self.__list_object__
 
-        if self.__list_object__ is None:
+        if self.__my_list_object__ is None:
             raise RuntimeError("Cannot have an ObjectifyList without a __list_object__")
 
         super(ObjectifyList, self).__init__(list_object=list_object, **kwargs)
@@ -32,12 +34,12 @@ class ObjectifyList(ObjectifyModel):
         """
 
         from ..dynamic import DynamicProperty
-        if isinstance(self.__list_object__, DynamicProperty):
+        if isinstance(self.__my_list_object__, DynamicProperty):
             return self.__morph_dynamic_item__(item)
 
-        if not isinstance(item,self.__list_object__.__class__):
+        if not isinstance(item,self.__my_list_object__.__class__):
 
-            _item = self.__list_object__.copy_inited()
+            _item = self.__my_list_object__.copy_inited()
             
             _item.from_collection(item)
         else:
@@ -85,7 +87,7 @@ class ObjectifyList(ObjectifyModel):
             return _item
         
 
-        _item = self.__list_object__.copy_inited()
+        _item = self.__my_list_object__.copy_inited()
         _item.from_collection(item)
         return _item
 
@@ -200,9 +202,9 @@ class ObjectifyList(ObjectifyModel):
             **kwargs_dict
         )
 
-        cl.__list_object__ = cl.__list_object__.copy_inited()
+        cl.__my_list_object__ = cl.__my_list_object__.copy_inited()
         
         return cl
 
     def example_value(self):
-        return [self.__list_object__.example_value()]
+        return [self.__my_list_object__.example_value()]

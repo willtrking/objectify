@@ -5,7 +5,7 @@ import ujson
 from objectify import ObjectifyDict, ObjectifyList
 from objectify.dynamic import DynamicDict
 
-from objectify.prop import String, Integer, Boolean, Decimal, TrimmedUnicode
+from objectify.prop import TrimmedString, Str, String, Integer, Boolean, Decimal, TrimmedUnicode, ObjectifyProperty, Unicode
 from objectify.dynamic import DynamicProperty
 from objectify.prop.timestamp import SmartTimestamp
 
@@ -48,8 +48,8 @@ _collection = {
         "l" : None,
         "o" : "l"
     },
-    "t" : "NOICE",
-    "arr":["AYY","LMAO"]
+    "t" : "  NOICE   asasdasasdasdadsasdadsadsadsadsadsadsads",
+    "arr":["AYY asadsadsadsdas","LMAO adadasasdads"]
 }
 
 #z.to_collection()
@@ -71,25 +71,30 @@ _collection = {
 
 
 zz = []
-for i in xrange(1):
+for i in xrange(10000):
 
-    z = Test()
+    #z = Boolean()
+    #z = ObjectifyProperty()
+    z=Test()
     z.from_collection(_collection)
+    #print z.to_collection()
     #print z._kwargs_value('wooter',default='cool')
     zz.append(z)
 
-print zz[0].to_collection()
+#print zz[0].to_collection()
 #for i in xrange(400000):
     #zz.append(frozenset())
     #zz.append(("woot",))
-    #zz.append({'a':1,'b':2})
+    #zz.append({"a":1,"b":2,"c":2,"d":2,"e":2})
+    #zz.append((('a',1),('b',2),('c',2),('d',2),('e',2)))
 
 heaper = h.heap()
 print heaper
 
 #print "-----"
 #print ""
-#print heaper[0].byvia
+#print heaper[1].byrcs.referents
+
 #print h.heap().more
 #print h.heap().more.more
 

@@ -19,8 +19,7 @@ class SmartTimestamp(ObjectifyProperty):
         '__to_timezone__',
         '__timezone_convert__',
         '__from_timezone__',
-        '__outgoing_format__',
-        '__outgoing_format_default__'
+        '__outgoing_format__'
     )
 
     #__to_timezone__ = None
@@ -30,6 +29,7 @@ class SmartTimestamp(ObjectifyProperty):
     #__from_timezone__ = None
 
     #Collection format
+
     __outgoing_format_default__ = '%Y-%m-%d %H:%M:%S'
 
     to_type=datetime

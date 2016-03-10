@@ -10,7 +10,7 @@ from .base import ObjectifyProperty
 class Integer(ObjectifyProperty):
     """ A system dependent (32 or 64 bit) integer """
 
-    #__slots__ = ()
+    __slots__ = ()
 
     to_type=int
     
@@ -20,7 +20,7 @@ class Integer(ObjectifyProperty):
 class Int(ObjectifyProperty):
     """ A system dependent (32 or 64 bit) integer """
 
-    #__slots__ = ()
+    __slots__ = ()
 
     to_type=int
     
@@ -30,7 +30,7 @@ class Int(ObjectifyProperty):
 class Long(ObjectifyProperty):
     """ A 64 bit integer """
 
-    #__slots__ = ()
+    __slots__ = ()
 
     to_type = long
 
@@ -45,7 +45,7 @@ class Long(ObjectifyProperty):
 class Float(ObjectifyProperty):
     """ A float """
 
-    #__slots__ = ()
+    __slots__ = ()
 
     to_type = float
 
@@ -59,6 +59,8 @@ class Decimal(ObjectifyProperty):
         Rounding, precision, etc. may vary depending on use 
     """
 
+    __slots__ = ()
+    
     to_type = python_Decimal
 
     __decimal_context_kwargs__ = {}

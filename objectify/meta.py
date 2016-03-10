@@ -2,16 +2,16 @@
 
 from .prop import ObjectifyProperty
 from base import ObjectifyObject
+from inspect import isfunction, isbuiltin
 
 class ObjectifyDictType(type):
 
     def __new__(cls, name, bases, attrs):
         _attrs = {
             '__obj_attrs__' : {},
-            '__passdown_attributes__' : {},
+            '__passdown_attributes__' : {}
         }
 
-        _parent_attributes = set()
         for base in bases:
             _obj_attrs = None
             try:
@@ -25,8 +25,7 @@ class ObjectifyDictType(type):
                     _obj_attrs.items()
                 )
 
-        for key in _attrs['__obj_attrs__'].keys():
-            _parent_attributes.add(key)
+        _parent_attributes = frozenset(_attrs['__obj_attrs__'].keys())
 
         _passdown_check = {}
         for attr,obj in attrs.iteritems():
@@ -77,13 +76,8 @@ class ObjectifyDictType(type):
 
                 _attrs['__passdown_attributes__'][from_attr].append(
                     (to_attr,child_attr)
-                )                
-
-
-
-
-
-
+                )
+        
         return super(ObjectifyDictType, cls).__new__(cls, name, bases, _attrs)
 
 

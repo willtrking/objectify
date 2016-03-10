@@ -9,6 +9,7 @@ from ..prop.base import ObjectifyProperty
 
 class ObjectifyDict(ObjectifyModel):
 
+    #__metaclass__ = classmaker(left_metas=(ObjectifyDictType,))
     __metaclass__ = ObjectifyDictType
 
 
@@ -41,7 +42,6 @@ class ObjectifyDict(ObjectifyModel):
         }
     """
     __obj_attrs__ = {}
-
 
 
     """
@@ -88,11 +88,11 @@ class ObjectifyDict(ObjectifyModel):
     """
     __passdown_from__ = None
 
+
     def __init__(self,*args,**kwargs):
         self.__fetch_attr__ = None
-        self.__obj_attrs__ = self.__obj_attrs__.copy()
+        self.__did_copy_obj_attrs__ = False
 
-        self.__passdown_attributes__ = self.__passdown_attributes__.copy()
 
         _exclude_from_collection = kwargs.get("exclude_from_collection",None)
         if _exclude_from_collection is not None:
@@ -119,7 +119,7 @@ class ObjectifyDict(ObjectifyModel):
             raise RuntimeError("__dynamic_class__ MUST be an instance of ObjectifyObject if it is set")
 
         self._isolate_attributes()
-
+        
         super(ObjectifyDict, self).__init__(*args,**kwargs)
 
     def __setattr__(self,name,val,raw=False):
@@ -150,10 +150,9 @@ class ObjectifyDict(ObjectifyModel):
                 if isinstance(val,ObjectifyObject):
                     val = val.to_collection()
                 
-                _val = existing#.copy_inited()
-                _val.from_collection(val)
+                existing.from_collection(val)
 
-                val = _val
+                val = existing
 
         super(ObjectifyDict, self).__setattr__(name,val)
 
@@ -240,8 +239,7 @@ class ObjectifyDict(ObjectifyModel):
             return
         
 
-        _val = existing#.copy_inited()
-        _val.from_collection(val)
+        existing.from_collection(val)
         
 
         super(ObjectifyDict, self).__setattr__(name,_val)
@@ -276,6 +274,9 @@ class ObjectifyDict(ObjectifyModel):
 
             raise RuntimeError("Introduction of dynamic attributes which are not ObjectifyObjects MUST be instances of __dynamic_class__")
 
+        if not self.__did_copy_obj_attrs__:
+            self.__obj_attrs__ = self.__obj_attrs__.copy()
+            self.__did_copy_obj_attrs__ = True
 
         self.__obj_attrs__[name] = name
         if not isinstance(val,ObjectifyObject):
@@ -485,7 +486,6 @@ class ObjectifyDict(ObjectifyModel):
                     continue
 
                 obj = self.__getattribute__(attr,raw=True)
-                obj = obj#.copy_inited()
                 self.__setattr__(attr,obj,raw=True)
         
         completed = set()
