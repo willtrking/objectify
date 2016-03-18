@@ -59,11 +59,9 @@ class ObjectifyModel(ObjectifyObject):
 
 
     def fetch_key_value(self):
-        print self.__fetch_attr__
         return getattr(self,self.__fetch_attr__)
 
     def set_fetch_key_value(self,val):
-        print self.__fetch_attr__
         return setattr(self,self.__fetch_attr__,val)
 
     @property
