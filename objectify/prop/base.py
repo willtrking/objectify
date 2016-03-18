@@ -178,14 +178,14 @@ class ObjectifyProperty(ObjectifyObject):
     def from_collection(self,frm):
 
         if isinstance(self.__fetch_object__,ObjectifyObject):
-            if isinstance(frm,self.__fetch_object__):
+            if isinstance(frm,self.__fetch_object__.__class__):
                 self.__value__ = frm.fetch_key_value()
                 self.__value_fetched_value__ = frm.fetch_key_value()
                 self.__value_fetched__ = True
                 self.__value_retrieved__ = frm
 
                 return
-                
+
         if (frm == self.incoming_default or
                 frm == self.outgoing_default):
             self.__value__ = self.outgoing_default
