@@ -148,8 +148,17 @@ class ObjectifyDict(ObjectifyModel):
                 return self.__set_dynamic_attr__(name,val)
 
             if isinstance(existing,ObjectifyObject):
+
                 if isinstance(val,ObjectifyObject):
-                    val = val.to_collection()
+
+                    if isinstance(existing,ObjectifyProperty):
+
+                        if isinstance(existing.__fetch_object__,ObjectifyObject):
+                            if not isinstance(val,existing.__fetch_object__.__class__):
+                                val = val.to_collection()
+                                
+                    else:
+                        val = val.to_collection()
                 
                 existing.from_collection(val)
 
