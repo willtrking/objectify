@@ -185,6 +185,34 @@ class ObjectifyProperty(ObjectifyObject):
                 self.__value_retrieved__ = frm
 
                 return
+            else:
+                from objectify.model import ObjectifyDict, ObjectifyList
+
+                if (isinstance(frm,dict) and 
+                        isinstance(self.__fetch_object__,ObjectifyDict)):
+
+                    self.__value_retrieved__ = self.__fetch_object__.copy_inited()
+                    self.__value_retrieved__.from_collection(frm)
+
+                    self.__value__ = self.__value_retrieved__.fetch_key_value()
+                    self.__value_fetched_value__ = self.__value_retrieved__.fetch_key_value()
+                    self.__value_fetched__ = True
+
+                    return
+
+                elif (isinstance(frm,list) and 
+                        isinstance(self.__fetch_object__,ObjectifyList)):
+
+                    self.__value_retrieved__ = self.__fetch_object__.copy_inited()
+                    self.__value_retrieved__.from_collection(frm)
+
+                    self.__value__ = self.__value_retrieved__
+                    self.__value_fetched_value__ = self.__value_retrieved__
+                    self.__value_fetched__ = True
+
+                    return
+
+
 
         if (frm == self.incoming_default or
                 frm == self.outgoing_default):
