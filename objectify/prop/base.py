@@ -188,7 +188,9 @@ class ObjectifyProperty(ObjectifyObject):
             else:
                 from objectify.model import ObjectifyDict, ObjectifyList
 
-                if (isinstance(frm,dict) and 
+                if (self.to_type is not None and 
+                        not isinstance(self.to_type,dict) and
+                        isinstance(frm,dict) and 
                         isinstance(self.__fetch_object__,ObjectifyDict)):
 
                     self.__value_retrieved__ = self.__fetch_object__.copy_inited()
@@ -200,7 +202,9 @@ class ObjectifyProperty(ObjectifyObject):
 
                     return
 
-                elif (isinstance(frm,list) and 
+                elif (self.to_type is not None and 
+                        not isinstance(self.to_type,list) and
+                        isinstance(frm,list) and 
                         isinstance(self.__fetch_object__,ObjectifyList)):
 
                     self.__value_retrieved__ = self.__fetch_object__.copy_inited()
