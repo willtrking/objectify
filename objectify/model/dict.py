@@ -161,6 +161,7 @@ class ObjectifyDict(ObjectifyModel):
                         if not isinstance(val, existing.__class__):
                             val = val.to_collection()
                         else:
+                            val.__key_name__ = existing.__key_name__
                             #In this case its an instance of the class we already have
                             #So just hard set it and end
                             return super(ObjectifyDict, self).__setattr__(name,val)
